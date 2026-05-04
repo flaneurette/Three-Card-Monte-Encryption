@@ -1,8 +1,8 @@
-# Three-Card-Monte-Encryption
+# Three-Card-Monte-Encryption. (TCM)
 
 Encryption based upon classic hustle. Inspired by the game.
 
-As the name implies, it does a trick:
+As the name implies, it does a neat trick:
 
 1. Encrypts a file
 2. Slices it into 4 parts.
