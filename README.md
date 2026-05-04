@@ -16,7 +16,7 @@ We use a minimum of 6 random fragments with random data and random lengths. Incr
 
 ### Difficulty
 
-- Requires all slices/puzzle pieces to be correctly aligned. 10.000 guesses, 8+ days. (but attacker wont know if its correct unless they crack the masterpassword)
+- Requires all slices/puzzle pieces to be correctly aligned. 10.000 guesses, 8+ days. (The attacker cannot verify if a PIN is correct without also guessing the master password.)
 - Each password guess takes 3 seconds, with AES-256-GCM + Argon2.
 - Requires the salt slice, stored on hardware.
 - And a strong master password.
