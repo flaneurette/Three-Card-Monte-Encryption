@@ -82,13 +82,14 @@ function createRandomData(length) {
   return Buffer.from(data.slice(0, targetLength), 'utf8');
 }
 
-async function encryptFile() {
+// ... (keep all your existing imports and helper functions)
 
+async function encryptFile() {
   // 1. Generate random salt
   const salt = crypto.randomBytes(16);
 
-  // 2. Derive encryption key
-  const key = await deriveKey(config.password, salt);
+  // 2. Derive encryption key for REAL fragments
+  const realKey = await deriveKey(config.password, salt);
 
   // 3. Generate hardware key (physical 2FA)
   const hardwareKey = await generateHardwareKey();
@@ -99,7 +100,7 @@ async function encryptFile() {
   const fileSize = fileData.length;
   const fragments = [];
 
-  // Generate 3 random split points (0 < p1 < p2 < p3 < fileSize)
+  // Generate random split points
   const p1 = Math.floor(Math.random() * (fileSize - 3)) + 1;
   const p2 = Math.floor(Math.random() * (fileSize - p1 - 2)) + p1 + 1;
   const p3 = Math.floor(Math.random() * (fileSize - p2 - 1)) + p2 + 1;
@@ -115,17 +116,20 @@ async function encryptFile() {
   // 5. Create all fragments (real + fake)
   for(let i = 0; i < config.totalFragments; i++) {
     if(config.pinPositions.includes(i)) {
-      fragments.push(realFragments[config.pinPositions.indexOf(i)]);
+      // REAL fragment - encrypt with master password
+      fragments.push(encryptAES(realFragments[config.pinPositions.indexOf(i)], realKey));
     } else {
+      // FAKE fragment - encrypt with random password
+      const randomPassword = crypto.randomBytes(32).toString('hex');
+      const randomKey = await deriveKey(randomPassword, crypto.randomBytes(16));
       const randomSize = Math.floor(Math.random() * (config.maxFragmentSize - config.minFragmentSize + 1)) + config.minFragmentSize;
-      fragments.push(createRandomData(randomSize));
+      fragments.push(encryptAES(createRandomData(randomSize), randomKey));
     }
   }
 
-  // 6. Encrypt fragments with separator
+  // 6. Build encrypted fragments
   const sep = Buffer.from('<<<TCM-PART>>>', 'utf8');
-  const encryptedFragments = fragments.map(frag => {
-    const encrypted = encryptAES(frag, key);
+  const encryptedFragments = fragments.map(encrypted => {
     return Buffer.concat([encrypted.iv, encrypted.authTag, encrypted.ciphertext]);
   });
 
