@@ -11,6 +11,9 @@ As the name implies, it does a trick:
 5. Generates random puzzle fragments
 6. Concatenates them into one file.
 
+We use a minimum of 6 random fragments with random data and random lengths. Increasing it makes it even more difficult, but increases storage costs.
+10 puzzle pieces is good trade-off between storage and security.
+
 ### Difficulty
 
 - Requires all slices/puzzle pieces to be correctly aligned. 10.000 guesses, 8+ days. (but attacker wont know if its correct unless they crack the masterpassword)
