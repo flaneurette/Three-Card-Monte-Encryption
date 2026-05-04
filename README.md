@@ -44,13 +44,14 @@ You could make them all required to enter, but for testing we hardcoded both the
 ### Use
 
 `node encrypt.js`
-`node dcrypt.js`
+
+`node decrypt.js`
 
 ### Requires
 
-NODEJS + argon crypto extension.
+NODEJS + argon/crypto extension.
 
 ### License
-Free to use, adpt and modify. No warranty, use at your own risk.
+Free to use, adapt and modify. No warranty, use at your own risk.
 
 Made with Mistral AI.
