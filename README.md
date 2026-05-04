@@ -28,7 +28,7 @@ Time to practically bruteforce: `8.9 × 10^35 × 3 sec ≈ 8.5 × 10^27 years`
 - A file is encrypted with AES-256-GCM + Argon2, using a strong master password.
 - The secret file is sliced into 4 random part lenghts.
 - Additionally, 6 (or more) random file parts are generated and encrypted.
-- These `secret file` fragments are placed at positions based upon a unique pincode.
+- The `secret file` fragments are placed at positions based upon a unique pincode (each digit indicates a puzzle position).
 - At the other 6 positions are random fragments.
 - All fragments are then concatenated into one file
 - A 16 (or more) char slice is taken from this concatenated file, and stored on hardware key.
