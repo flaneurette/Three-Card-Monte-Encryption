@@ -61,6 +61,10 @@ You could make them all required to enter, but for testing we hardcoded both the
 
 NODEJS + argon/crypto extension.
 
+### Safety
+NOTE: The generation of the random fragments has not been thoroughly tested. This stage generates random words, just like text and enecrypts it in the same way with different filelengths as the the real orginal file.
+We think this is secure already, but might need crypto-analysis to be certain.
+
 ### License
 Free to use, adapt and modify. No warranty, use at your own risk.
 
