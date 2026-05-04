@@ -11,7 +11,7 @@ As the name implies, it does a neat trick:
 3. Shuffles parts around based upon PINCODE digits
 4. Slices a 16 char length secret (the hidden ball)
 5. Generates random puzzle fragments
-6. Concatenates them into one file.
+6. Weaves them into one file.
 
 We use a minimum of 6 random fragments with random data and random lengths. Increasing it makes it even more difficult, but increases storage costs.
 10 puzzle pieces is good trade-off between storage and security.
@@ -47,8 +47,8 @@ No Verification = No Brute-Force.
 - Additionally, 6 (or more) random file parts are generated and encrypted.
 - The `secret file` fragments are placed at positions based upon a unique pincode (each digit indicates a puzzle position).
 - All other 6 positions are random fragments, the random fragments are encrypted with a `random password`
-- All fragments are then concatenated into one file
-- A 16 (or more) char slice is taken from this concatenated file, and stored on hardware key.
+- All fragments are then weaved into one file
+- A 16 (or more) char slice is taken from this weaved file, and stored on hardware key.
 - A hash of that slicekey is embedded in the final file.
 - The final file is then saved as a `.tcm` file.
 
