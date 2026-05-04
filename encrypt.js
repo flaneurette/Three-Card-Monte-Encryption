@@ -98,25 +98,26 @@ async function encryptFile() {
   const fileSize = fileData.length;
   const fragments = [];
 
+  // REAL fragment - encrypt with master password
+  let real = encryptAES(fileData, realKey);
+      
   // Generate random split points
-  const p1 = Math.floor(Math.random() * (fileSize - 3)) + 1;
-  const p2 = Math.floor(Math.random() * (fileSize - p1 - 2)) + p1 + 1;
-  const p3 = Math.floor(Math.random() * (fileSize - p2 - 1)) + p2 + 1;
+  const p1 = Math.floor(Math.random() * (real.length - 3)) + 1;
+  const p2 = Math.floor(Math.random() * (freal.length - p1 - 2)) + p1 + 1;
+  const p3 = Math.floor(Math.random() * (real.length - p2 - 1)) + p2 + 1;
 
+  real = Buffer.from(real, 'utf8');
   // Create the 4 real fragments
   const realFragments = [
-    fileData.slice(0, p1),
-    fileData.slice(p1, p2),
-    fileData.slice(p2, p3),
-    fileData.slice(p3, fileSize)
+    real.slice(0, p1),
+    real.slice(p1, p2),
+    real.slice(p2, p3),
+    real.slice(p3, real.length)
   ];
 
   // 5. Create all fragments (real + fake)
   for(let i = 0; i < config.totalFragments; i++) {
-    if(config.pinPositions.includes(i)) {
-      // REAL fragment - encrypt with master password
-      fragments.push(encryptAES(realFragments[config.pinPositions.indexOf(i)], realKey));
-    } else {
+    if(!config.pinPositions.includes(i)) {
       // FAKE fragment - encrypt with random password
       const randomPassword = crypto.randomBytes(32).toString('hex');
       const randomKey = await deriveKey(randomPassword, crypto.randomBytes(16));
