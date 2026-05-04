@@ -47,7 +47,7 @@ No Verification = No Brute-Force.
 
 `Decryption`
 
-Script reads the masterpassword, and ask for a PIN.
+Script reads the masterpassword, and asks for a PIN.
 
 You could make them all required to enter, but for testing we hardcoded both the password + PIN.
 
