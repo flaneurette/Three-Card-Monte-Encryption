@@ -13,10 +13,13 @@ As the name implies, it does a trick:
 
 ### Difficulty
 
-- Each password guess takes 3 seconds, with Argon2.
-- Requires all slices/puzzle pieces to be correctly aligned
-- Requires the salt slice
+- Requires all slices/puzzle pieces to be correctly aligned. 10.000 guesses, 8+ days. (but attacker wont know if its correct unless they crack the masterpassword)
+- Each password guess takes 3 seconds, with AES-256-GCM + Argon2.
+- Requires the salt slice, stored on hardware.
 - And a strong master password.
+
+Time to practically bruteforce: `8.9 × 10^35 × 3 sec ≈ 8.5 × 10^27 years`
+(That’s 615 trillion times the age of the universe.)
 
 ### How it works
 
@@ -47,3 +50,7 @@ You could make them all required to enter, but for testing we hardcoded both the
 
 NODEJS + argon crypto extension.
 
+### License
+Free to use, adpt and modify. No warranty, use at your own risk.
+
+Made with Mistral AI.
