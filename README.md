@@ -14,7 +14,7 @@ As the name implies, it does a neat trick:
 We use a minimum of 6 random fragments with random data and random lengths. Increasing it makes it even more difficult, but increases storage costs.
 10 puzzle pieces is good trade-off between storage and security.
 
-Everything if configuarble by editting the `config.js` file
+Everything if configurable by editting the `config.js` file
 
 ### Difficulty
 
