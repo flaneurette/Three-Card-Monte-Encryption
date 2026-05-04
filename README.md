@@ -24,6 +24,13 @@ We use a minimum of 6 random fragments with random data and random lengths. Incr
 Time to practically bruteforce: `8.9 × 10^35 × 3 sec ≈ 8.5 × 10^27 years`
 (That’s 615 trillion times the age of the universe.)
 
+No Verification = No Brute-Force.
+
+    The attacker cannot verify if a PIN is correct without also guessing:
+        - The fragment order (24 permutations).
+        - The master password (94^16 possibilities).
+    Even if they guess the PIN and fragment order correctly, they still face 3.5 × 10^23 years of brute-forcing.
+
 ### How it works
 
 `Encryption`
