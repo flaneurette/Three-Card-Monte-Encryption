@@ -69,25 +69,52 @@ function createRandomData(length) {
   let data = '';
   const targetLength = Math.floor(Math.random() * (length - 100 + 1)) + 100;
 
-  while(data.length < targetLength) {
+  // Generate random text
+  while (data.length < targetLength) {
     data += createWord();
-    if(Math.random() > 0.99) { // 1% chance to add symbol
-      data += createSymbol();
-    }
-    if(Math.random() > 0.91) { // 1% chance to add newline
-      data += '\r\n';
-    }
+    if (Math.random() > 0.99) data += createSymbol(); // 1% symbol
+    if (Math.random() > 0.91) data += '\r\n';         // 1% newline
   }
 
-  return Buffer.from(data.slice(0, targetLength), 'utf8');
+  // Ensure data is not empty
+  if (!data.trim()) {
+    throw new Error("Generated empty data");
+  }
+
+  // Generate a 32-byte key
+  const key = crypto.randomBytes(32);
+
+  // Encrypt (with error handling)
+  try {
+    const encryptedFile = encryptAES(data.substring(0, targetLength), key);
+
+    // Combine IV + AuthTag + Ciphertext
+    const encryptedBuffer = Buffer.concat([
+      encryptedFile.iv,
+      encryptedFile.authTag,
+      encryptedFile.ciphertext
+    ]);
+
+    return encryptedBuffer;
+  } catch (error) {
+    const encryptedFile = encryptAES(data.substring(0, targetLength), key);
+
+    // Combine IV + AuthTag + Ciphertext
+    const encryptedBuffer = Buffer.concat([
+      encryptedFile.iv,
+      encryptedFile.authTag,
+      encryptedFile.ciphertext
+    ]);
+  }
 }
 
 async function encryptFile() {
+
   // 1. Generate random salt
   const salt = crypto.randomBytes(16);
 
-  // 2. Derive encryption key for REAL fragments
-  const realKey = await deriveKey(config.password, salt);
+  // 2. Derive encryption key
+  const key = await deriveKey(config.password, salt);
 
   // 3. Generate hardware key (physical 2FA)
   const hardwareKey = await generateHardwareKey();
@@ -95,53 +122,54 @@ async function encryptFile() {
 
   // 4. Read and split file into fragments
   const fileData = await fs.readFile(config.inputFile);
-  const fileSize = fileData.length;
+  const fileSize1 = fileData.length;
   const fragments = [];
 
-  // Generate random split points
-  const p1 = Math.floor(Math.random() * (fileSize - 3)) + 1;
-  const p2 = Math.floor(Math.random() * (fileSize - p1 - 2)) + p1 + 1;
-  const p3 = Math.floor(Math.random() * (fileSize - p2 - 1)) + p2 + 1;
+  const encryptedFile = encryptAES(fileData, key);
+  
+  const encryptedBuffer = Buffer.concat([
+    encryptedFile.iv,
+    encryptedFile.authTag,
+    encryptedFile.ciphertext
+  ]);
 
-  // Create the 4 real fragments
+  const fileSize2 = encryptedBuffer.length;
+  const p1 = Math.floor(Math.random() * (fileSize2 - 3)) + 1;
+  const p2 = Math.floor(Math.random() * (fileSize2 - p1 - 2)) + p1 + 1;
+  const p3 = Math.floor(Math.random() * (fileSize2 - p2 - 1)) + p2 + 1;
+
   const realFragments = [
-    fileData.slice(0, p1),
-    fileData.slice(p1, p2),
-    fileData.slice(p2, p3),
-    fileData.slice(p3, fileSize)
+    encryptedBuffer.slice(0, p1),
+    encryptedBuffer.slice(p1, p2),
+    encryptedBuffer.slice(p2, p3),
+    encryptedBuffer.slice(p3, fileSize2)
   ];
-
+  
   // 5. Create all fragments (real + fake)
   for(let i = 0; i < config.totalFragments; i++) {
     if(config.pinPositions.includes(i)) {
-      // REAL fragment - encrypt with master password
-      fragments.push(encryptAES(realFragments[config.pinPositions.indexOf(i)], realKey));
-    } else {
-      // FAKE fragment - encrypt with random password
-      const randomPassword = crypto.randomBytes(32).toString('hex');
-      const randomKey = await deriveKey(randomPassword, crypto.randomBytes(16));
-      const randomSize = Math.floor(Math.random() * (config.maxFragmentSize - config.minFragmentSize + 1)) + config.minFragmentSize;
-      fragments.push(encryptAES(createRandomData(randomSize), randomKey));
+        fragments[i] = realFragments[config.pinPositions.indexOf(i)];
+        } else {
+        let randomSize = Math.floor(Math.random() * (config.maxFragmentSize - config.minFragmentSize + 1)) + config.minFragmentSize;
+        let randomData = createRandomData(randomSize);
+        fragments[i] = randomData;
     }
   }
-
-  // 6. Build encrypted fragments
+  
   const sep = Buffer.from('<<<TCM-PART>>>', 'utf8');
-  const encryptedFragments = fragments.map(encrypted => {
-    return Buffer.concat([encrypted.iv, encrypted.authTag, encrypted.ciphertext]);
-  });
-
-  // 7. Build vault data
+  
   const vaultData = Buffer.concat([
-    salt, // 16-byte salt
-    hardwareKeyHash, // 32-byte SHA-256 hash of hardware key
-    ...interleaveWithSeparators(encryptedFragments, sep)
+    salt,
+    hardwareKeyHash,
+    ...interleaveWithSeparators(fragments, sep)
   ]);
 
-  // 8. Save encrypted file
+  // console.log(fragments);
+  
   await fs.writeFile(config.encryptedArchive, vaultData);
+  
   console.log(`File saved to: ${config.encryptedArchive}`);
-  console.log(`Remember your PIN: ${config.pinPositions.join(', ')}`);
+  console.log(`PIN: ${config.pinPositions.join(', ')}`);
 }
 
 // Helper function to interleave buffers with separators
