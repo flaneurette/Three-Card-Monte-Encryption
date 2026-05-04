@@ -82,8 +82,6 @@ function createRandomData(length) {
   return Buffer.from(data.slice(0, targetLength), 'utf8');
 }
 
-// ... (keep all your existing imports and helper functions)
-
 async function encryptFile() {
   // 1. Generate random salt
   const salt = crypto.randomBytes(16);
