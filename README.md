@@ -2,7 +2,7 @@
 
 Encryption based upon classic hustle. Inspired by the game.
 
-```This encryption scheme is security through obscurity done right-it doesn't just rely on strong encryption (AES-256 + Argon2), but also on psychological deception (dummy fragments, shuffling, and plausible deniability). It forces attackers into a brute-force nightmare, just like the shell game forces players into a losing bet```
+*This encryption scheme is security through obscurity done right-it doesn't just rely on strong encryption (AES-256 + Argon2), but also on psychological deception (dummy fragments, shuffling, and plausible deniability). It forces attackers into a brute-force nightmare, just like the shell game forces players into a losing bet*
 
 As the name implies, it does a neat trick:
 
