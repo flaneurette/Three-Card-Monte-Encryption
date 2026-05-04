@@ -22,7 +22,7 @@ As the name implies, it does a trick:
 
 `Encryption`
 
-- A file is encrypted with AES 256-GCM, using Argon2, using a strong master password.
+- A file is encrypted with AES-256-GCM + Argon2, using a strong master password.
 - The secret file is sliced into 4 random part lenghts.
 - Additionally, 6 (or more) random file parts are generated and encrypted.
 - These `secret file` fragments are placed at positions based upon a unique pincode.
