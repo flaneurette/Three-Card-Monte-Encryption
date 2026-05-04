@@ -39,7 +39,7 @@ No Verification = No Brute-Force.
 - The secret file is sliced into 4 random part lenghts.
 - Additionally, 6 (or more) random file parts are generated and encrypted.
 - The `secret file` fragments are placed at positions based upon a unique pincode (each digit indicates a puzzle position).
-- At the other 6 positions are random fragments.
+- At the other 6 positions are random fragments, the random fragments are encrypted with a `random password`
 - All fragments are then concatenated into one file
 - A 16 (or more) char slice is taken from this concatenated file, and stored on hardware key.
 - A hash of that slicekey is embedded in the final file.
