@@ -11,14 +11,14 @@ As the name implies, it does a trick:
 5. Generates random puzzle fragments
 6. Concatenates them into one file.
 
-# Difficulty
+### Difficulty
 
 - Each password guess takes 3 seconds, with Argon2.
 - Requires all slices/puzzle pieces to be correctly aligned
 - Requires the salt slice
 - And a strong master password.
 
-# How it works
+### How it works
 
 `Encryption`
 
@@ -38,12 +38,12 @@ Script reads the masterpassword, and ask for a PIN.
 
 You could make them all required to enter, but for testing we hardcoded both the password + PIN.
 
-# Use
+### Use
 
 `node encrypt.js`
 `node dcrypt.js`
 
-# Requires
+### Requires
 
 NODEJS + argon crypto extension.
 
