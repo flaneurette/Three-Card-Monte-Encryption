@@ -10,11 +10,11 @@ As the name implies, it does a neat trick:
 2. Slices it into 4 parts.
 3. Shuffles parts around based upon PINCODE digits
 4. Slices a 16 char length secret (the hidden ball)
-5. Generates random puzzle fragments
+5. Generates random puzzle fragments (~30, random)
 6. Weaves them into one file.
 
-We use a minimum of 6 random fragments with random data and random lengths. Increasing it makes it even more difficult, but increases storage costs.
-10 puzzle pieces is good trade-off between storage and security.
+We use a minimum of ~30 random fragments with random data and random lengths. Increasing it makes it even more difficult, but increases storage costs.
+30 puzzle pieces is good trade-off between storage and security.
 
 Everything if configurable by editting the `config.js` file
 
@@ -36,9 +36,9 @@ Realisticly:
 
 - A file is encrypted with AES-256-GCM + Argon2, using a strong master password.
 - The secret file is sliced into 4 random part lenghts.
-- Additionally, 6 (or more) random file parts are generated and encrypted.
+- Additionally, 30 (or more) random file parts are generated and encrypted.
 - The `secret file` fragments are placed at positions based upon a unique pincode (each digit indicates a puzzle position).
-- All other 6 positions are random fragments, the random fragments are encrypted with a `random password`
+- All other 30 positions are random fragments, the random fragments are encrypted with a `random password`
 - All fragments are then weaved into one file
 - A 16 (or more) char slice is taken from this weaved file, and stored on hardware key.
 - A hash of that slicekey is embedded in the final file.
