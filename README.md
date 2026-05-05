@@ -21,7 +21,7 @@ Everything if configurable by editting the `config.js` file
 ### Difficulty
 
 - Requires all slices/puzzle pieces to be correctly aligned. 10.000 guesses, 8+ days. (The attacker cannot verify if a PIN is correct without also guessing the master password.)
-- Each password guess takes 3 seconds, with AES-256-GCM + Argon2: takes about `~4.2 hours` per password candidate.
+- Each password guess takes 3 seconds, with AES-256-GCM + Argon2. Shuffeling takes about `~4.2 hours` per password candidate.
 - Requires the salt slice, stored on hardware.
 - And a strong master password.
 
