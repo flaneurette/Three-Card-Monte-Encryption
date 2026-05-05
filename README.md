@@ -10,7 +10,7 @@ As the name implies, it does a neat trick:
 2. Slices it into 4 parts.
 3. Shuffles parts around based upon PINCODE digits
 4. Slices a 16 char length secret (the hidden ball)
-5. Generates random puzzle fragments (~30, random)
+5. Generates random puzzle fragments (~30, more configurable)
 6. Weaves them into one file.
 
 We use a minimum of ~30 random fragments with random data and random lengths. Increasing it makes it even more difficult, but increases storage costs.
