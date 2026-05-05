@@ -144,14 +144,19 @@ async function encryptFile() {
     encryptedBuffer.slice(p2, p3),
     encryptedBuffer.slice(p3, fileSize2)
   ];
-  
+
   // 5. Create all fragments (real + fake)
-  for(let i = 0; i < config.totalFragments; i++) {
+  let randomFragmentCount = (Math.floor(Math.random() * 10) + config.totalFragments);
+  
+  for(let i = 0; i < randomFragmentCount; i++) {
     if(config.pinPositions.includes(i)) {
         fragments[i] = realFragments[config.pinPositions.indexOf(i)];
         } else {
-        let randomSize = Math.floor(Math.random() * (config.maxFragmentSize - config.minFragmentSize + 1)) + config.minFragmentSize;
-        let randomData = createRandomData(randomSize);
+        // Average filesizes, plus randomization which seeds the random fragments
+        let partAverageSize  = (fileSize1 / 4);
+        let variance = partAverageSize * 0.8; // makes it very hard to analyze differences.
+        let averaged = parseInt(Math.floor(Math.random() * (variance * 2 + 1)) + (partAverageSize - variance));
+        let randomData = createRandomData(averaged);
         fragments[i] = randomData;
     }
   }

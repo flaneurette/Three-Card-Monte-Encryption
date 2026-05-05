@@ -7,16 +7,12 @@ module.exports = {
     memoryCost: 524288,                     // 512MB RAM
     parallelism: 1,                         // number of required cores. Increase if required.
   }, 
-  totalFragments: 10,                       // 10 puzzle fragments already makes it impracticle to bruteforce. Can be increased, but requires more storage.
-  dummyCount: 6,                            // 6 dummy files (total 10 puzzle fragments)
+  totalFragments: 30,                       // Minimum of 10 puzzle fragments already makes it impracticle to bruteforce. Can be increased, but requires more storage.
   fragmentCount: 4,                         // Split real file into 4 puzzle pieces
   pinPositions: [4,3,2,1],                  // Positions of real puzzle fragments in the archive (this is your unique PINCODE!)
-  minFragmentSize: 200,                     // Minimum amount of characters of dummy fragments.
-  maxFragmentSize: 10000,                   // Maximum amount of characters of dummy fragments.
   // File paths
   inputFile: "./secret.txt",                // File to encrypt
   encryptedArchive: 'enecypted-file.tcm',
   decryptedFile: 'decrypted-secret.txt',
   hardwareKeyPath: 'hardware-key.bin',
-  fragmentSize: 4096,  // Must match encryption
 };
