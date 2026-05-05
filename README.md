@@ -25,10 +25,16 @@ Everything if configurable by editting the `config.js` file
 - Requires the salt slice, stored on hardware.
 - And a strong master password.
 
-Realisticly:
+The realistic minimum:
 
 - Without shuffling: 1 guess = 3 seconds
 - With shuffling:    1 guess = 5,040 * 3 seconds = ~4.2 hours per password candidate.
+
+Maximum performance is even better, in the range of `days` for each password candidate.
+
+### Tradeoff
+
+Encrypted filesize increases 4x, to 6x on average. But storage is cheap, and additional fragments makes it infeasible to bruteforce.
 
 ### How it works
 
