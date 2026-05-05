@@ -73,4 +73,4 @@ We think this is safe, but might need crypto-analysis to be more certain. `As wi
 ### License
 Free to use, adapt and modify. No warranty, use at your own risk. Code is still experimental.
 
-Made with Mistral AI, verified/reviewed by Claud AI.
+Made with Mistral AI, verified/reviewed by Claude AI.
