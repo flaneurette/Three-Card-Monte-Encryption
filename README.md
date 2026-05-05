@@ -21,22 +21,14 @@ Everything if configurable by editting the `config.js` file
 ### Difficulty
 
 - Requires all slices/puzzle pieces to be correctly aligned. 10.000 guesses, 8+ days. (The attacker cannot verify if a PIN is correct without also guessing the master password.)
-- Each password guess takes 3 seconds, with AES-256-GCM + Argon2.
+- Each password guess takes 3 seconds, with AES-256-GCM + Argon2: takes about `~4.2 hours` per password candidate.
 - Requires the salt slice, stored on hardware.
 - And a strong master password.
 
-Time to practically bruteforce: `8.9 × 10^35 × 3 sec ≈ 8.5 × 10^27 years`
-(That’s 615 trillion times the age of the universe.)
+Realisticly:
 
-No Verification = No Brute-Force.
-
-*The attacker cannot verify if a PIN is correct without also guessing:*
-
-        - The fragment order (24 permutations).
-        
-        - The master password (94^16 possibilities).
-        
-*Even if they guess the PIN and fragment order correctly, they still face 3.5 × 10^23 years of brute-forcing.*
+- Without shuffling: 1 guess = 3 seconds
+- With shuffling:    1 guess = 5,040 * 3 seconds = ~4.2 hours per password candidate.
 
 ### How it works
 
@@ -73,6 +65,6 @@ NOTE: The generation of the random fragments has not been thoroughly tested. Thi
 We think this is safe, but might need crypto-analysis to be more certain. `As with all crypto, there is no way to know it's 100% secure.`
 
 ### License
-Free to use, adapt and modify. No warranty, use at your own risk.
+Free to use, adapt and modify. No warranty, use at your own risk. Code is still experimental.
 
-Made with Mistral AI.
+Made with Mistral AI, verified/reviewed by Claud AI.
